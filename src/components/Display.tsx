@@ -12,13 +12,14 @@ const Display = () => {
     const heroState = useSelector((state: RootState) => state.hero)
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setHeroNumber(event.target.value as any)
     const handleSubmit = () => { dispatch(GetHero(heroNumber)) }
+    console.log(heroState)
     return (
         <div>
             <input type='number' onChange={handleChange} />
             <button onClick={handleSubmit}>Search</button>
             {heroState.hero && (
                 <div>
-                    {heroState.hero.Info.name} from {heroState.hero.Info.homeworld}
+                    {heroState.hero.name} from {heroState.hero.birth_year}
                 </div>
             )}
         </div>
