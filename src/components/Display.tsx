@@ -1,21 +1,26 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators } from '../redux';
-import { RootState } from '../redux/reducers';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../redux";
+import { GetHero } from "../redux/actions/HeroActions";
+
+
 
 const Display = () => {
 
-    const state = useSelector((state: RootState) => state.count)
     const dispatch = useDispatch();
-
-    const { addCount, subCount, reset } = bindActionCreators(actionCreators, dispatch)
-
+    const [heroNumber, setHeroNumber] = useState(0)
+    const heroState = useSelector((state: RootState) => state.hero)
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => setHeroNumber(event.target.value as any)
+    const handleSubmit = () => { dispatch(GetHero(heroNumber)) }
     return (
         <div>
-            <h3>{state}</h3>
-            <button onClick={() => addCount(1000)}>Deposit</button>
-            <button onClick={() => subCount(1000)}>Withdraw</button>
-            <button onClick={() => reset()}>Bankrupt</button>
+            <input type='number' onChange={handleChange} />
+            <button onClick={handleSubmit}>Search</button>
+            {heroState.hero && (
+                <div>
+                    {heroState.hero.Info.name} from {heroState.hero.Info.homeworld}
+                </div>
+            )}
         </div>
     )
 }
